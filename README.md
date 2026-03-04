@@ -12,7 +12,7 @@ npm create vite@latest frontend -- --template react-ts
 cd frontend
 npm install
 ```
-|Add libraries for UI:
+*| Add libraries for UI:
 ```
 npm i react-pdf react-resizable-panels @monaco-editor/react
 npm i react-pdf react-resizable-panels @monaco-editor/react
