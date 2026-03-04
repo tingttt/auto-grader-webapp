@@ -1,6 +1,6 @@
 # auto-grader-webapp
 
-## Initialization
+## Step 1 Initialization
 1.  Clone Github repo
 ```
 git clone https://github.com/<yourname>/auto-grader-webapp.git
@@ -15,10 +15,20 @@ npm install
 Add libraries for UI:
 ```
 npm i react-pdf react-resizable-panels @monaco-editor/react
-npm i react-pdf react-resizable-panels @monaco-editor/react
-npm i pdfjs-dist
+npm i pdfjs-dist@5.4.296
 ```
 run
 ```
 npm run dev
+```
+## Step 2 UI
+
+Library use react-pdf to render PDF canvas
+Resolve css default limit width
+```
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
 ```
