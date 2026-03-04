@@ -19,4 +19,6 @@ npm i react-pdf react-resizable-panels @monaco-editor/react
 npm i pdfjs-dist
 ```
 run
-```npm run dev```
+```
+npm run dev
+```
