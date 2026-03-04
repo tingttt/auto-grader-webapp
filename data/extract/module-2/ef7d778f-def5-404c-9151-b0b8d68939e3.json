@@ -1,0 +1,30 @@
+{
+  "documentId": "ef7d778f-def5-404c-9151-b0b8d68939e3",
+  "moduleId": "module-2",
+  "pages": [
+    {
+      "pageNumber": 1,
+      "text": "Code Submission: NUA_Upgrade_System_Gao\nConcatenated source files (generated from ZIP)."
+    },
+    {
+      "pageNumber": 2,
+      "text": "FILE: NUA_Upgrade_System_Gao/input1.txt\n--------------------------------------------------------------------------------\n5 2 1\nA 1 120 Platinum\nB 5 60 Super\nC 3 140 Super\nD 2 130 Gold\nE 4 150 Silver\n5"
+    },
+    {
+      "pageNumber": 3,
+      "text": "FILE: NUA_Upgrade_System_Gao/input2.txt\n--------------------------------------------------------------------------------\n4 1 2\nA 1 30 Platinum\nB 2 60 Gold\nC 3 90 Silver\nD 4 120 Super\n2\n4"
+    },
+    {
+      "pageNumber": 4,
+      "text": "FILE: NUA_Upgrade_System_Gao/nua_upgrade.py\n--------------------------------------------------------------------------------\nimport sys\nimport heapq\nclass Flyer:\n    \"\"\"\n    Represents a frequent flyer with priority attributes.\n    \"\"\"\n    # Map status to an integer value for priority comparison\n    STATUS_PRIORITY = {\n        'Super': 4,\n        'Platinum': 3,\n        'Gold': 2,\n        'Silver': 1\n    }\n    def __init__(self, name, flyer_id, time, status):\n        self.name = name\n        self.flyer_id = flyer_id\n        self.time = int(time)\n        self.status = status\n        # Get the integer value of the status, default to 0 if not found\n        self.status_value = self.STATUS_PRIORITY.get(self.status, 0)\n    def __lt__(self, other):\n        \"\"\"\n        Defines the less-than operator (<) for the min-heap.\n        Priority Rules:\n        1. Higher status comes first (simulated by comparing negative values).\n        2. If status is tied, earlier request time comes first.\n        \"\"\"\n        if self.status_value != other.status_value:\n            # Min-heap will put the smallest value at the top.\n            # -4 (Super) is smaller than -3 (Platinum), so Super goes to the top.\n            return -self.status_value < -other.status_value\n        \n        # If status is the same, smaller time value (earlier) has higher priority\n        return self.time < other.time\n    def __str__(self):\n        # Format the output exactly as requested in the assignment examples\n        return f\"({self.name}, {self.flyer_id}, {self.time}, {self.status})\"\nclass UpgradeSystem:\n    \"\"\"\n    Manages the upgrade requests and cancellations using a Priority Queue.\n    \"\"\"\n    def __init__(self):\n        # Min-heap to store the flyers\n        self.waitlist_heap = []\n        # Hash set to store cancelled flyer IDs for O(1) lookup (Lazy Deletion)\n        self.cancelled_ids = set()\n    def add_request(self, flyer):\n        \"\"\"\n        Adds a flyer to the waitlist."
+    },
+    {
+      "pageNumber": 5,
+      "text": "Time Complexity: O(log n)\n        \"\"\"\n        heapq.heappush(self.waitlist_heap, flyer)\n    def cancel_request(self, flyer_id):\n        \"\"\"\n        Records a cancellation request.\n        Uses Lazy Deletion strategy to meet the strict time complexity.\n        Time Complexity: O(1) which is strictly better than O(log n)\n        \"\"\"\n        self.cancelled_ids.add(flyer_id)\n    def get_top_k(self, k):\n        \"\"\"\n        Retrieves the top k highest-priority flyers.\n        Time Complexity: O(k log n)\n        \"\"\"\n        result = []\n        # Keep popping until we get k valid flyers or the heap is empty\n        while self.waitlist_heap and len(result) < k:\n            # Extract the flyer with the highest priority, O(log n)\n            current_flyer = heapq.heappop(self.waitlist_heap)\n            \n            # Check if the flyer has cancelled their request\n            if current_flyer.flyer_id not in self.cancelled_ids:\n                result.append(current_flyer)\n                \n        return result\ndef main():\n    # Read all lines from standard input, ignoring empty lines\n    lines = [line.strip() for line in sys.stdin if line.strip()]\n    if not lines:\n        return\n    # Parse the first line for n, k, and c\n    # Example: \"5 2 1 (n k c)\" -> split and take first 3 elements\n    first_line_tokens = lines[0].split()\n    n = int(first_line_tokens[0])\n    k = int(first_line_tokens[1])\n    c = int(first_line_tokens[2])\n    system = UpgradeSystem()\n    # Read 'n' lines of flyer information\n    for i in range(1, n + 1):\n        tokens = lines[i].split()\n        name = tokens[0]\n        flyer_id = tokens[1]\n        time = tokens[2]\n        status = tokens[3]\n        \n        flyer = Flyer(name, flyer_id, time, status)\n        system.add_request(flyer)\n    # Read 'c' lines of cancellation requests\n    for i in range(n + 1, n + 1 + c):"
+    },
+    {
+      "pageNumber": 6,
+      "text": "tokens = lines[i].split()\n        flyer_id = tokens[0]\n        system.cancel_request(flyer_id)\n    # Fetch and print the top K flyers\n    top_k_flyers = system.get_top_k(k)\n    for flyer in top_k_flyers:\n        print(flyer)\nif __name__ == \"__main__\":\n    main()"
+    }
+  ]
+}

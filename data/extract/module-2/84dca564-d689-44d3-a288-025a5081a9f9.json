@@ -1,0 +1,18 @@
+{
+  "documentId": "84dca564-d689-44d3-a288-025a5081a9f9",
+  "moduleId": "module-2",
+  "pages": [
+    {
+      "pageNumber": 1,
+      "text": "Exercise 5.7.29(a)\nHigher_priority(p, q)\n  if A[p].rank > A[q].rank then return true\n  if A[p].rank < A[q].rank then return false\n  return A[p].time < A[q].time \n// Swap helper \nSwap(i, j):\n    temp ← A[i]\n    A[i] ← A[j]\n    A[j] ← temp\n    location[A[i].code] ← i\n    location[A[j].code] ← j\nAlgorithm UpgradeRequest(rank,time,passenger,code)\nInput: rank,time,passenger,code\nOutput: updated heap with new request inserted \nn ← n+1\nA[n].rank ← rank\nA[n].time ← time\nA[n].passenger ← passenger\nA[n].code ← code\nlocation[code] ←n \ni ← n\nwhile i > 1 and higher_priority(i,⌊i/2 ⌋) do \n  Swap (i,⌊i/2 ⌋)\n  i ← ⌊i/2 ⌋\nAlgorithm CancelRequest(code)\nInput: code (confirmation code of the request to cancel)\nOutput: updated heap A  (request removed if found)\n    if code not in location then\n        return                  // no such request found\npos ← location[code]\n    location.remove(code)\n    if pos = n then             // deleting the last element\n        n ← n - 1\n        return\n    // Move last element to pos\nA[pos] ← A[n]\n    location[A[pos].code] ← pos\n    n ← n - 1\n    if n = 0 then\n        return"
+    },
+    {
+      "pageNumber": 2,
+      "text": "// Restore heap property (sift-down, similar to AssignUpgrades)\nif pos > 1 and higher_priority(pos, ⌊pos/2⌋) then\n    // sift up\n    i ← pos\n    while i > 1 and higher_priority(i, ⌊i/2 ⌋) do\n        Swap(i, ⌊i/2 ⌋)\n        i ← ⌊i/2 ⌋\nelse\n    // sift down\n    i ← pos\n    while 2i ≤ n do\n        s ← 2i\n        if 2i+1 ≤ n and higher_priority(2i+1, 2i) then\n            s ← 2i+1\n        if higher_priority(s, i) then\n            Swap(i, s)\n            i ← s\n        else\n            break\nAlgorithm AssignUpgrades(k)\nInput: k(number of first-class seats available for upgrade)\nOutput: list of up to k passengers selected for upgrade(highest priority first)\nselected ← empty list             \nwhile k > 0 and n > 0 do \n   best ← A[1]\n   append best.passenger to selected \n   location.remove(best.code)\n   if n = 1 then \n   n ← 0\n   break \n  A[1] ← A[n]\n  location[A[1].code] ← 1\n  n ← n-1\n// heapify-down from root\ni ← 1\nwhile 2i ≤ n do \n  largest ← i \n  if 2i ≤ n and higher_priority(2i, largest) then \nlargest ← 2i"
+    },
+    {
+      "pageNumber": 3,
+      "text": "if 2i + 1 ≤ n and higher_priority(2i + 1 , largest) then\nlargest ← 2i + 1 \nif largest = i then \nbreak\n   Swap(i, largest)\n   i ← largest \nk ← k-1 \nend while \nreturn selected"
+    }
+  ]
+}
