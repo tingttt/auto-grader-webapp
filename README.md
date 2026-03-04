@@ -15,6 +15,7 @@ npm install
 Add libraries for UI:
 ```
 npm i react-pdf react-resizable-panels @monaco-editor/react
+npm i react-router-dom react-dropzone
 npm i pdfjs-dist@5.4.296
 ```
 run
